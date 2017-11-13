@@ -20,6 +20,8 @@ https://api.corp.99taxis.com/docs
 
 - [Corridas finalizadas](#corridas-finalizadas)
 
+- [Webhooks](#webhooks)
+
 - [FAQ](#faq)
 
 ## Colaboradores
@@ -1350,7 +1352,65 @@ https://api.corp.99taxis.com/docs
       "taxiCategoryName": "Taxi 30% OFF"
     }
     ```
-    
+        
+-----
+
+## Webhooks
+
+Webhook permite que seu sistema receba notificações de eventos originados de corridas da 99.
+Quando um desses eventos ocorrer, iremos enviar um HTTP POST com o payload do evento para a URL configurada no webhook. Webhooks podem ser utilizados para receber o status e a posição do motorista durante uma corrida em andamento.
+
+### Segurança
+
+Toda comunicação deve ser feita com HTTPS e a url de recebimento do evento deve estar configurada na porta 443.
+
+Para garantir a integridade do evento, e que o mesmo está sendo enviado através dos servidores da 99, um header no padrão Basic Authentication será acrescentado em toda requisição. As credenciais podem ser configuradas através do endpoint de [Criação de Webhook](#criação-de-webhook).
+
+### Estratégia de tentativas 
+O webhook espera que sua aplicação responda com o http status code 200 (OK) com um corpo vazio para todo evento gerado, e iremos aguardar até 10 segundos para receber a resposta. Caso qualquer uma dessas regras não sejam atingidas, o evento será re-transmitido para sua aplicação de acordo com um algoritmo de compensação exponencial (exponential back-off) com multiplicador de 15 segundos, até um limite máximo de 10 tentativas. Isso significa que iremos tentar enviar o mesmo evento para o seu servidor durante um período de 2 horas.
+
+### Criação do Webhook
+
+* **URL**
+
+  `/webhooks/`
+
+* **Method**
+
+  `PUT`
+  
+*  **Parâmetros via body**
+
+
+   | Atributo     | Tipo do dado     | Descrição                                    | Obrigatório     | Valor padrão     | Exemplo        |
+   |----------    |--------------    |------------------------------------------    |-------------    |--------------    |------------    |
+   | url           | String URL     | URL de recebimento dos eventos do seu servidor | sim             | -                | https://seudominio.com.br/ninenine/webhooks |
+      | authentication.username           | String | Usuário do Basic Authentication | sim             | -                | https://seudominio.com.br/ninenine/webhooks |
+
+* **Retorno**
+  
+  **Status Code:** 200
+
+### Eventos
+
+ O identificador do evento, event.id, é único por toda a plataforma, portanto sua aplicação deve ler essa informação e se adequar a duplicidades.
+ 
+
+
+Os eventos enviados através do webhook seguem um padrão, para que sua aplicação entenda facilmente os eventos. Abaixo segue o payload da requisição através de um POST HTTP.
+
+
+
+   | Atributo | Tipo do dado | Descrição | Exemplo |
+   |----|---|----|---|---|---- |
+   | event.id| String |Identificador único do evento| 123e4567-e89b-12d3-a456-426655440000
+      | event.date| Long |Data da geração do evento| 123e4567-e89b-12d3-a456-426655440000
+
+
+
+
+
+
 -----
 
 ## FAQ
