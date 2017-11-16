@@ -20,6 +20,8 @@ https://api.corp.99taxis.com/docs
 
 - [Corridas finalizadas](#corridas-finalizadas)
 
+- [Webhooks](#webhooks)
+
 - [FAQ](#faq)
 
 ## Colaboradores
@@ -1350,7 +1352,201 @@ https://api.corp.99taxis.com/docs
       "taxiCategoryName": "Taxi 30% OFF"
     }
     ```
-    
+        
+-----
+
+## Webhooks
+
+Webhook permite que seu sistema receba notificações de eventos originados de corridas da 99.
+Quando um desses eventos ocorrer, iremos enviar um HTTP POST com o payload do evento para a URL configurada no webhook. Webhooks podem ser utilizados para receber o status e a posição do motorista durante uma corrida em andamento. É possível receber eventos de mudança de status de corrida, assim como posição atual do motorista durante uma corrida em andamento.
+
+### Segurança
+
+Toda comunicação deve ser feita com HTTPS e a url de recebimento do evento deve estar configurada na porta 443.
+
+Para garantir a integridade do evento, e que o mesmo está sendo enviado através dos servidores da 99, um header no padrão Basic Authentication será acrescentado em toda requisição. As credenciais podem ser configuradas através do endpoint de Criação de Webhook abaixo. Seu servidor deve validar o header afim de garantir a segurança da informação.
+
+### Estratégia de tentativas 
+O webhook espera que sua aplicação responda com o http status code de sucesso 2xx (aceita-se 200, 201, 202, 203, 204, 205 ou 206) com um corpo vazio para todo evento gerado, e iremos aguardar até 10 segundos para receber a resposta. Caso qualquer uma dessas regras não sejam atingidas, o evento será re-transmitido para sua aplicação de acordo com um algoritmo de compensação exponencial (exponential back-off) com multiplicador de 15 segundos, até um limite máximo de 10 tentativas. Isso significa que iremos tentar enviar o mesmo evento para o seu servidor durante um período de 2 horas (por exemplo: 15, 30, 60, 120, 240 segundos e assim sucessivamente).
+
+De acordo com as regras acima, um evento pode ser transmitido mais de uma única vez para os seus servidores, portanto você deve decidir em ignorar caso receba eventos repetidos. O atributo `event.id` garante a chave única do evento, e você pode utilizá-lo para validar eventuais duplicidades.
+
+### Status de corridas
+
+Os seguintes status de corrida serão notificados quando ocorrerem.
+Os status marcados como **final** significam que não sofrerão alterações futuras.
+
+| Status     | Descrição | Status final? |
+|----------    |--------------    |---- |
+| finding           | Buscando motorista | não |
+| no-drivers-available | Nenhum motorista foi encontrado para sua solicitação| sim |
+| canceled-by-passenger | Corrida cancelada pelo passageiro | sim |
+| canceled-by-driver | Corrida cancelada pelo motorista | sim |
+| on-the-way | Motorista encontrado e a caminho | não |
+| in-progress | Corrida iniciada com passageiro a bordo | não |
+| finished | Corrida encerrada | sim |
+
+### Criação do Webhook
+
+* **URL**
+
+  `/webhooks/`
+
+* **Method**
+
+  `PUT`
+  
+*  **Parâmetros via body**
+
+
+   | Atributo                 | Tipo do dado     | Descrição                                            | Obrigatório     | Valor padrão     | Exemplo        |
+   |----------                |--------------    |------------------------------------------            |-------------    |--------------    |------------    |
+   | url                      | alfanumérico     | URL https de recebimento dos eventos do seu servidor | sim             | não possui       | https://seudominio.com.br/ninenine/webhooks |
+   | authentication.username  | alfanumérico | Credencial do usuário de Basic Authentication            | sim             | não possui       | username |
+   | authentication.password  | alfanumérico | Credencial de senha de Basic Authentication              | sim             | não possui       | password |
+   | subscriptions            | conjunto de alfanuméricos | Lista com subscrições para recebimento de webhooks. Valores aceitos: ride-status, ride-driver-location | sim | não possui | ("ride-status", "ride-driver-location") |
+
+* **Regras**
+
+- A senha informada para o sistema de segurança Basic Authentication deve conter as seguintes premissas:
+  
+  - Conter ao menos 8 caracteres
+  - Conter ao menos 1 dígito numérico
+  - Conter ao menos 1 caracter special
+
+* **Retorno**
+  
+  **Status Code:** 200
+
+  Descrição: Configuração de webhook atualizada.
+
+  **Status Code:** 422
+
+  Descrição: Ocorreram um ou mais erros de validação. Neste status, a seguinte estrutura json será retornada:
+
+  ```json
+  {
+    "errors": [
+        {
+            "code": "required-url",
+            "field": "url",
+            "message": "Url must be informed"
+        },
+        {
+            "code": "invalid-url",
+            "field": "url",
+            "message": "Url is not valid"
+        },
+        {
+            "code": "required-authentication",
+            "field": "authentication",
+            "message": "Authentication must be informed"
+        }
+    ]
+  }
+  ```
+
+  Segue mapeamento de erros completos que podem ser retornados caso algum dado inválido seja informado ao se definir o webhook.
+
+  | Code                     | Field                   | Message                                                               | Descrição  |
+  |----------                |-------                  |---------                                                              | ---------  |
+  | required-url             | url                     | Url must be informed                                                  | Url não foi informada |
+  | invalid-url              | url                     | Url is not valid                                                      | Url informada não é válida |
+  | invalid-url              | url                     | Url must have secure https scheme                                     | Url precisa ser segura e usar https |
+  | required-authenticationl | authentication          | Authentication must be informed                                       | Dados de autenticação não foram informados |
+  | required-username        | authentication.username | Authentication username must be informed                              | Usuário para autenticação não foi informado |
+  | required-password        | authentication.password | Authentication password must be informed                              | Senha para autenticação não foi informado |
+  | invalid-password         | authentication.password | Authentication password should contain at least eight digits          | Senha de autenticação deve conter ao menos 8 caracteres |
+  | invalid-password         | authentication.password | Authentication password should contain at least one digit             | Senha de autenticação deve conter ao menos 1 número |
+  | invalid-password         | authentication.password | Authentication password should contain at least one special character | Senha de autenticação deve conter ao menos 1 caracter especial |
+  | required-subscriptions   | subscriptions           | At least one subscription must be informed                            | Subscrição de eventos não foi definida |
+  | invalid-subscriptions    | subscriptions           | Allowed subscriptions: ride-status, ride-driver-location              | Subscrição de evento selecionada não é válida |
+
+
+
+### Eventos
+
+O identificador do evento `event.id` é único por toda a plataforma, portanto sua aplicação deve ler essa informação e se adequar a duplicidades. 
+
+Os eventos enviados através do webhook seguem um padrão, para que sua aplicação entenda facilmente os eventos. Determinados dados não serem exibidos, dependendo do estado atual da corrida. Conforme a corrida mudar de status (iniciar, entrar em andamento ou finalizar), novos dados serão enviados, seguindo a estrutura única de entidade. Abaixo segue o payload da requisição através de um POST HTTP.
+
+**Estrutura de retorno**
+   
+   | Atributo                         | Tipo do dado | Descrição                                                  |
+   |----------------------------      | --------- | --------------------------------------------------------    |
+   | event.id                         | identificador único universal (UUID) | Identificador único do evento            |
+   | event.date                       | data e hora | Data e hora do evento                           |
+   | event.notification               | alfanumérico | Tipo da notificação. Valores possíveis: ride-status, ride-driver-location                             |
+   | data.ride.id                     | alfanumérico | Identificador da corrida                                        |
+   | data.ride.status                 | alfanumérico | Estado atual da corrida                            |
+   | data.ride.category               | alfanumérico | Categoria da corrida. Valores possíveis: pop99, top99, regular-taxi, turbo-taxi                |
+   | data.ride.corporate.employee.id  | numérico | Identificador do colaborador                                 | 
+   | data.ride.corporate.note         | alfanumérico | Justificativa definida pelo colaborador ao solicitar a corrida                        |
+   | data.ride.origin.latitude        | coordenada geográfica | Latitude do endereço de origem                              |
+   | data.ride.origin.longitude       | coordenada geográfica | Longitude do endereço de origem            |
+   | data.ride.destination.latitude   | coordenada geográfica | Latitude do endereço de destino                        |
+   | data.ride.destination.longitude  | coordenada geográfica | Longitude do endereço de destino                                |
+   | data.ride.driver.name            | alfanumérico | Nome do motorista                                 |
+   | data.ride.driver.phone           | alfanumérico | Telefone do motorista                                     |
+   | data.ride.vehicle.model          | alfanumérico | Modelo do veículo                          |
+   | data.ride.vehicle.plate          | alfanumérico | Placa do veículo                             |
+   | location.latitude                | coordenada geográfica | Latitude com última localização da corrida     |
+   | location.longitude               | coordenada geográfica | Longitude com última localização da corrida     |
+
+**Exemplo de notificação**
+
+```json
+{
+  "event": {
+    "id": "5c99bf07-a852-42ed-9bff-30ff13ed888a",
+    "date": "2017-11-12T15:10:35",
+    "type": "ride-status"
+  },
+  "data": {
+    "ride": {
+      "id": "123456789",
+      "status": "on-the-way",
+      "category": "pop99",
+      "corporate": {
+        "employee": {
+          "id": 123456
+        },
+        "note": "reunião com cliente externo"
+      },
+      "origin": {
+        "latitude": -23.563157,
+        "longitude": -46.654316
+      },
+      "destination": {
+        "latitude": -23.599713,
+        "longitude": -46.687777
+      },
+      "driver": {
+        "name": "Claudio Moreira Cruz",
+        "phone": "11223344559"
+      },
+      "vehicle": {
+        "model": "Volkswagen GOL",
+        "plate": "ABC-1234"
+      },
+      "location": {
+        "latitude": -23.565678,
+        "longitude": -46.680754
+      }
+    }
+  }
+}
+```
+
+**Headers**
+
+Todos as notificações serão enviadas com as seguintes chaves no cabeçalho HTTP:
+
+| Header                         | Descrição |
+|----------------------------    | --------- |
+| X-Environment                  | Indica se a notificação de evento foi enviada pela API no ambiente de **sandbox** ou **production** |
+
+
 -----
 
 ## FAQ
