@@ -22,6 +22,8 @@ https://api.corp.99taxis.com/docs
 
 - [Webhooks](#webhooks)
 
+- [Testes em Sandbox](#testes-em-sandbox)
+
 - [FAQ](#faq)
 
 ## Colaboradores
@@ -1548,6 +1550,119 @@ Todos as notificações serão enviadas com as seguintes chaves no cabeçalho HT
 
 
 -----
+
+## Testes em Sandbox
+
+* **Endereço**
+
+  `https://sandbox-api.corp.99taxis.com`
+
+O ambiente de sandbox tem como objetivo prover uma estrutura para realizar os testes de gerenciamento de recursos como colaboradores (employee), centros de custo (cost center) e projetos (project). Adicionalmente, é possível criar corridas e atualizar seu status sem a necessidade de um aplicativo aberto com um motorista  disponível. Por fim, o mecanismo de webhook, ou seja, notificações sobre mudança de status da corrida ou localização do motorista, também está disponível neste ambiente de testes, permitindo validar todos os passos da integração com a api da 99.
+
+Todos os dados de corrida neste ambiente são simulados e com isso alguns valores podem não fazer sentido como relação entre distância e duração de uma corrida. Os dados de motorista, veículo, entre outros, sempre serão os mesmos. O objetivo é ter um conteúdo válido e para permitir validar a integração entre sistemas.
+
+As corridas criadas neste ambiente de teste ficarão disponíveis por 72 horas (3 dias no total). Após esse período, os dados serão expirados, sendo necessário criar outra corrida.
+
+* **Cenário de testes de corrida**
+
+1) Criar uma corrida
+
+Para criar uma corrida basta utilizar o mesmo endpoint de criação de corridas disponível no recurso `ride`.
+
+`curl -X POST https://sandbox-api.corp.99taxis.com/ride -H "Content-Type: application/json" -H "x-api-key: token" -d '{
+  "employeeID": 884373,
+  "from": {
+    "latitude": -23.564758,
+    "longitude": -46.651850,
+    "street": "Av Paulista, 1000, São Paulo - SP, Brasil",
+    "number": "1000",
+    "reference": ""
+  },
+  "phoneNumber": "11999999999",
+  "costCenterID": 43431,
+  "categoryID": "pop99",
+  "to": {
+    "latitude": -23.590760,
+    "longitude": -46.682129,
+    "street": "Av. Faria Lima, 3000, São Paulo - SP, Brasil",
+    "number": "0",
+    "reference": ""
+  },
+  "notes": "",
+  "projectID": 394932,
+  "optionals": [
+    "air-conditioner",
+    "female-driver"
+  ]
+}'`
+
+2) Acompanhar status de uma corrida
+
+Após criar a corrida, para obter os dados da mesma, basta utilizar o mesmo endpoint de acompanhamento de corridas disponível no recurso `ride`.
+
+`curl -X GET https://sandbox-api.corp.99taxis.com/ride/1234567890 -H "x-api-key: token"`
+
+3) Atualizar o status de uma corrida
+
+É possível atualizar o status da corrida, permitindo simular diversos cenários como cancelamento por parte do passageiro ou motorista, não localização de motoristas, corridas em andamento ou finalizadas. Para isso, é necessário realizar uma requisição com o método HTTP `PATCH`, fornecendo o identificador da corrida na url e o status desejado no corpo da mensagem.
+
+Estrutura do endpoint:
+
+* **URL**
+
+  `/ride/{id}`
+
+* **Method**
+
+  `PATCH`
+  
+*  **Parâmetros via body**
+
+
+   | Atributo                 | Tipo do dado     | Descrição                                            | Obrigatório     | Valor padrão     | Exemplo        |
+   |----------                |--------------    |------------------------------------------            |-------------    |--------------    |------------    |
+   | status                      | alfanumérico     | Status da corrida | sim 
+
+*  **Valores de status válidos**
+
+| Status                             | Descrição                                           |
+|--------------------------------    |-------------------------------------------------    |
+| WAITING_DRIVERS_ANSWERS            | Aguardando resposta dos motoristas                  | 
+| COULDNT_FIND_AVAILABLE_DRIVERS     | Nenhum motorista disponível                         |
+| DRIVERS_REJECTED                   | Nenhum motorista aceitou a corrida                  |
+| CAR_ON_THE_WAY                     | Motorista está a caminho do endereço solicitado     |
+| CAR_ARRIVED                        | Motorista chegou e a corrida está em andamento      |
+| CANCELED_BY_DRIVER                 | Corrida cancelada pelo motorista                    |
+| CANCELED_BY_PASSENGER              | Corrida cancelada pelo passageiro                   |
+| RIDE_ENDED                         | Corrida finalizada                                  |
+
+* **Retorno**
+  
+  **Status Code:** 204
+
+  Descrição: Corrida teve seu status atualizado com sucesso.
+
+  **Status Code:** 400
+
+  Descrição: Estrutura de envio de requisição inválida.
+
+  **Status Code:** 404
+
+  Descrição: Corrida não localizada ou inválida.
+
+  **Status Code:** 500
+
+  Descrição: Algum erro inesperado ocorreu.
+
+* **Exemplo de requisição**
+
+`curl --request PATCH https://sandbox-api.corp.99taxis.com/ride/1234567890 -H "Content-Type: application/json" -H "x-api-key: token" -d '{"status": "RIDE_ENDED"}'`
+
+4) Receber notificações
+
+Para receber notificações de mudança de status de corrida ou posição do motorista quando uma corrida estiver em andamento, é preciso definir as configurações de webhook através do recurso `webhooks`. Feito isso, sempre que o status da corrida for alterado usando o procedimento anterior (ou seja, uma requisição HTTP PATCH para o recurso `ride`), uma notificação será enviada para o endereço cadastrado com o status atual da corrida.
+
+Caso não receba as notificações de webhook, verifique as configurações cadastradas de webhook como URL e meio de autenticação (nome usuário e senha).
 
 ## FAQ
 
