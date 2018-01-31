@@ -16,9 +16,9 @@ https://api.corp.99taxis.com/docs
 
 - [Projetos](#projetos)
 
-- [Corridas em andamento](#corridas-em-andamento)
+- [Corridas](#corridas)
 
-- [Corridas finalizadas](#corridas-finalizadas)
+- [Recibos](#recibos)
 
 - [Webhooks](#webhooks)
 
@@ -120,6 +120,132 @@ https://api.corp.99taxis.com/docs
     ```
     
 -----
+
+## Categorias por colaborador e estimativa de valor por corrida
+
+* **URL**
+
+  `/employee/{id}/categories`
+
+* **Method**
+
+  `GET`
+  
+*  **Parâmetros via url**
+
+ | Atributo         | Tipo do dado     | Descrição                                    | Obrigatório     | Valor padrão     | Exemplo        |
+ |----------        |--------------    |------------------------------------------    |-------------    |--------------    |------------    |
+ | id               | numérico         | Identificador do colaborador               | sim             | -                | 10             |
+ | fromLat          | alfanumérico     | Latitude do ponto de origem               | sim             | -                | -23.5986665   |
+ | fromLng          | alfanumérico     | Longitude do ponto de origem               | sim             | -                | -46.6907445    |
+ | toLat            | alfanumérico     | Latitude do ponto de destino               | não             | -                | -23,6822      |
+ | toLng            | alfanumérico  | Longitude do ponsto de destino               | não             | -                | -46,6896      |
+ | estimatedTime    | numérico         | Tempo estimado do trajeto em minutos      | não             | -                | 15             |
+ | estimatedDistance| numérico         | Distância estimada do trajeto em metros   | não             | -                | 10250         |
+ 
+ * **Retorno**
+   
+   **Status Code:** 200
+   
+   **Estrutura de retorno**
+   
+   | Atributo                        | Descrição                                                                                 |
+   |-----------------------------    |---------------------------------------------------------------------------------------    |
+   | category.id                     | Identificador da categoria. Valores possíveis: regular-taxi, turbo-taxi, top99, pop99     |
+   | category.name                   | Nome da categoria disponível                                                              |
+   | category.description            | Descrição da categoria disponível                                                         |
+   | category.eta                    | Tempo de estimativa de chegada do motorista                                               |
+   | estimate.lowerFare              | Menor valor possível para o trajeto estimado                                              |
+   | estimate.upperFare              | Maior valor possível para o trajeto estimado                                              |
+   | estimate.currencyCode           | Código da moeda usada para retornar o valor da corrida                                    |
+   | estimate.fareText               | Texto com valor precificado                                                               |
+   | estimate.fareTextComplement     | Complemento do texto com valor precificado                                                |
+   | optional.id                     | Identificador de opcional disponível para a corrida                                       |
+   | optional.title                  | Nome do opcional disponível                                                               |
+   | optional.description            | Descrição do opcional disponível                                                          |
+   
+   **Exemplo de retorno**
+   
+     ```json
+     [
+       {
+         "category": {
+           "id": "turbo-taxi",
+           "name": "99TAXI",
+           "description": "Agora: 30% OFF",
+           "eta": 2
+         },
+         "estimate": {
+           "lowerFare": 23,
+           "upperFare": 32,
+           "currencyCode": "R$",
+           "fareText": "R$23",
+           "fareTextComplement": "ou mais"
+         },
+         "optionals": [
+             {
+                 "id": "accessible-taxi",
+                 "title": "Veículo adaptado para cadeirante",
+                 "description": "Veículo acessível"
+             },
+             {
+                 "id": "big-trunk",
+                 "title": "Porta-malas grande",
+                 "description": "Porta-malas grande"
+             },
+             {
+                 "id": "accept-animals",
+                 "title": "Permite animais",
+                 "description": "Permite animais"
+             },
+             {
+                 "id": "air-conditioner",
+                 "title": "Ar-condicionado",
+                 "description": "Ar-condicionado"
+             }
+         ]
+       },
+       {
+            "category": {
+                "id": "regular-taxi",
+                "name": "Táxi Comum",
+                "description": "Tarifa cheia",
+                "eta": 4
+            },
+            "estimate": {
+                "lowerFare": 34,
+                "upperFare": 45,
+                "currencyCode": "R$",
+                "fareText": "R$34",
+                "fareTextComplement": "ou mais"
+            },
+            "optionals": [
+                {
+                    "id": "accessible-taxi",
+                    "title": "Veículo adaptado para cadeirante",
+                    "description": "Veículo acessível"
+                },
+                {
+                    "id": "big-trunk",
+                    "title": "Porta-malas grande",
+                    "description": "Porta-malas grande"
+                },
+                {
+                    "id": "accept-animals",
+                    "title": "Permite animais",
+                    "description": "Permite animais"
+                },
+                {
+                    "id": "air-conditioner",
+                    "title": "Ar-condicionado",
+                    "description": "Ar-condicionado"
+                }
+            ]
+        }
+     ]
+     ```
+     
+ ----
 
 ## Cadastro de colaborador
 
@@ -478,132 +604,6 @@ https://api.corp.99taxis.com/docs
     
 -----
 
-## Categorias por colaborador e estimativa de valor por corrida
-
-* **URL**
-
-  `/employee/{id}/categories`
-
-* **Method**
-
-  `GET`
-  
-*  **Parâmetros via url**
-
- | Atributo         | Tipo do dado     | Descrição                                    | Obrigatório     | Valor padrão     | Exemplo        |
- |----------        |--------------    |------------------------------------------    |-------------    |--------------    |------------    |
- | id               | numérico         | Identificador do colaborador               | sim             | -                | 10             |
- | fromLat          | alfanumérico     | Latitude do ponto de origem               | sim             | -                | -23.5986665   |
- | fromLng          | alfanumérico     | Longitude do ponto de origem               | sim             | -                | -46.6907445    |
- | toLat            | alfanumérico     | Latitude do ponto de destino               | não             | -                | -23,6822      |
- | toLng            | alfanumérico  | Longitude do ponsto de destino               | não             | -                | -46,6896      |
- | estimatedTime    | numérico         | Tempo estimado do trajeto em minutos      | não             | -                | 15             |
- | estimatedDistance| numérico         | Distância estimada do trajeto em metros   | não             | -                | 10250         |
- 
- * **Retorno**
-   
-   **Status Code:** 200
-   
-   **Estrutura de retorno**
-   
-   | Atributo                        | Descrição                                                                                 |
-   |-----------------------------    |---------------------------------------------------------------------------------------    |
-   | category.id                     | Identificador da categoria. Valores possíveis: regular-taxi, turbo-taxi, top99, pop99     |
-   | category.name                   | Nome da categoria disponível                                                              |
-   | category.description            | Descrição da categoria disponível                                                         |
-   | category.eta                    | Tempo de estimativa de chegada do motorista                                               |
-   | estimate.lowerFare              | Menor valor possível para o trajeto estimado                                              |
-   | estimate.upperFare              | Maior valor possível para o trajeto estimado                                              |
-   | estimate.currencyCode           | Código da moeda usada para retornar o valor da corrida                                    |
-   | estimate.fareText               | Texto com valor precificado                                                               |
-   | estimate.fareTextComplement     | Complemento do texto com valor precificado                                                |
-   | optional.id                     | Identificador de opcional disponível para a corrida                                       |
-   | optional.title                  | Nome do opcional disponível                                                               |
-   | optional.description            | Descrição do opcional disponível                                                          |
-   
-   **Exemplo de retorno**
-   
-     ```json
-     [
-       {
-         "category": {
-           "id": "turbo-taxi",
-           "name": "99TAXI",
-           "description": "Agora: 30% OFF",
-           "eta": 2
-         },
-         "estimate": {
-           "lowerFare": 23,
-           "upperFare": 32,
-           "currencyCode": "R$",
-           "fareText": "R$23",
-           "fareTextComplement": "ou mais"
-         },
-         "optionals": [
-             {
-                 "id": "accessible-taxi",
-                 "title": "Veículo adaptado para cadeirante",
-                 "description": "Veículo acessível"
-             },
-             {
-                 "id": "big-trunk",
-                 "title": "Porta-malas grande",
-                 "description": "Porta-malas grande"
-             },
-             {
-                 "id": "accept-animals",
-                 "title": "Permite animais",
-                 "description": "Permite animais"
-             },
-             {
-                 "id": "air-conditioner",
-                 "title": "Ar-condicionado",
-                 "description": "Ar-condicionado"
-             }
-         ]
-       },
-       {
-            "category": {
-                "id": "regular-taxi",
-                "name": "Táxi Comum",
-                "description": "Tarifa cheia",
-                "eta": 4
-            },
-            "estimate": {
-                "lowerFare": 34,
-                "upperFare": 45,
-                "currencyCode": "R$",
-                "fareText": "R$34",
-                "fareTextComplement": "ou mais"
-            },
-            "optionals": [
-                {
-                    "id": "accessible-taxi",
-                    "title": "Veículo adaptado para cadeirante",
-                    "description": "Veículo acessível"
-                },
-                {
-                    "id": "big-trunk",
-                    "title": "Porta-malas grande",
-                    "description": "Porta-malas grande"
-                },
-                {
-                    "id": "accept-animals",
-                    "title": "Permite animais",
-                    "description": "Permite animais"
-                },
-                {
-                    "id": "air-conditioner",
-                    "title": "Ar-condicionado",
-                    "description": "Ar-condicionado"
-                }
-            ]
-        }
-     ]
-     ```
-     
- ----
-
 ## Cadastro de centro de custo
 
 * **URL**
@@ -841,7 +841,7 @@ https://api.corp.99taxis.com/docs
     
 -----
 
-## Corridas em andamento
+## Corridas
 
 ### Busca de corridas
 
@@ -1132,9 +1132,9 @@ https://api.corp.99taxis.com/docs
     
 -----
 
-## Corridas finalizadas
+## Recibos
 
-### Busca de corridas finalizadas
+### Busca de recibos
 
 * **URL**
 
@@ -1149,8 +1149,8 @@ https://api.corp.99taxis.com/docs
 
     | Atributo   | Tipo do dado   | Descrição                                  | Obrigatório | Valor padrão | Exemplo     |
     |------------   |-------------- |------------------------------------------- |-------------|--------------|-------------|
-    | startDate     | data e hora   | Indica data de início para filtro de busca por corridas finalizadas         | sim         | -            | 2017-06-01T00:00:00  |
-    | endDate       | data e hora   | Indica data de término para filtro de busca por corridas finalizadas   | sim         | -            | 2017-06-10T23:59:59           |
+    | startDate     | data   | Indica data de início para filtro de busca por corridas finalizadas         | sim         | -            | 2017-06-01  |
+    | endDate       | data   | Indica data de término para filtro de busca por corridas finalizadas   | sim         | -            | 2017-06-02           |
     | costCenterID      | numérico       | Indicador do centro de custo         | não         | -           | 20          |
     | projectID       | numérico       | Indicador do projeto                                 | não         | -            | 15          |
     | taxiCategory | alfanumérico   | Categoria da corrida. Valores possíveis: regular-taxi, turbo-taxi, top99 ou pop99 | não         | -            | pop99 |
@@ -1158,11 +1158,6 @@ https://api.corp.99taxis.com/docs
     | limit      | numérico       | Quantidade de registros por página         | não         | 20           | 10          |
     | page       | numérico       | Depreciado         | não         | -           | -          |
   
-    
-*  **Regras**
-
-    Este endpoint pode demorar até 10 minutos depois que uma corrida foi finalizada (status: RIDE_ENDED) para que retorne os dados de corridas.
-    Durante este tempo, o endpoint irá retornar status 404
 
 * **Retorno**
   
@@ -1172,7 +1167,7 @@ https://api.corp.99taxis.com/docs
    
    | Atributo                       | Descrição                                                  |
    |----------------------------    |--------------------------------------------------------    |
-   | ride.apiTaxiJobId              | Identificador da corrida finalizada            |
+   | ride.apiTaxiJobId              | Identificador da corrida            |
    | ride.company.id                | Identificador da empresa                            |
    | ride.company.name              | Nome da empresa                            |
    | ride.employee.id               | Identificador do colaborador                                         |
@@ -1279,7 +1274,7 @@ https://api.corp.99taxis.com/docs
     
 -----
 
-### Busca de corridas finalizadas por identificador
+### Busca do recibo pelo identificador da corrida
 
 * **URL**
 
@@ -1294,11 +1289,19 @@ https://api.corp.99taxis.com/docs
 
    | Atributo     | Tipo do dado     | Descrição                                    | Obrigatório     | Valor padrão     | Exemplo        |
    |----------    |--------------    |------------------------------------------    |-------------    |--------------    |------------    |
-   | id           | numérico         | Identificador da corrida                   | sim             | -                | 1             |
+   | id           | alfanumérico         | Identificador da corrida                   | sim             | -                | 1             |
+
+*  **Regras**
+
+    Após o término da corrida, existe o tempo de sincronização e geração do recibo. Devido a isso, pode demorar até 10 minutos para que o recibo da corrida esteja disponível. O identificador da corrida é o mesmo usado para obter os dados do recibo.
+
+    Enquanto o recibo não estiver disponível, o endpoint irá retornar o status code 204.
 
 * **Retorno**
   
   **Status Code:** 200
+
+  Descrição: Recibo gerado e disponível.
   
   **Exemplo de retorno**
   
@@ -1354,6 +1357,10 @@ https://api.corp.99taxis.com/docs
       "taxiCategoryName": "Taxi 30% OFF"
     }
     ```
+
+    **Status Code:** 204
+
+    Descrição: O recibo não existe ou não está disponível. Em caso de corrida finalizada, deve-se aguardar o tempo de sincronização e geração do recibo.
         
 -----
 
@@ -1406,7 +1413,7 @@ Os status marcados como **final** significam que não sofrerão alterações fut
    | url                      | alfanumérico     | URL https de recebimento dos eventos do seu servidor | sim             | não possui       | https://seudominio.com.br/ninenine/webhooks |
    | authentication.username  | alfanumérico | Credencial do usuário de Basic Authentication            | sim             | não possui       | username |
    | authentication.password  | alfanumérico | Credencial de senha de Basic Authentication              | sim             | não possui       | password |
-   | subscriptions            | conjunto de alfanuméricos | Lista com subscrições para recebimento de webhooks. Valores aceitos: ride-status, ride-driver-location | sim | não possui | ("ride-status", "ride-driver-location") |
+   | subscriptions            | conjunto de alfanuméricos | Lista com subscrições para recebimento de webhooks. Valores aceitos: ride-status, ride-driver-location | sim | não possui | ["ride-status", "ride-driver-location"] |
 
 * **Regras**
 
@@ -1415,6 +1422,22 @@ Os status marcados como **final** significam que não sofrerão alterações fut
   - Conter ao menos 8 caracteres
   - Conter ao menos 1 dígito numérico
   - Conter ao menos 1 caracter special
+
+* **Exemplo de envio**
+
+  ```json
+  {
+    "url": "https://app.99taxis.com/v1/webhook",
+    "authentication": {
+        "username": "username",
+        "password": "password123&&"
+    },
+    "subscriptions": [
+        "ride-status",
+        "ride-driver-location"
+    ]
+  }
+  ```
 
 * **Retorno**
   
