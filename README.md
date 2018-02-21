@@ -1168,6 +1168,7 @@ https://api.corp.99taxis.com/docs
    | Atributo                       | Descrição                                                  |
    |----------------------------    |--------------------------------------------------------    |
    | ride.apiTaxiJobId              | Identificador da corrida            |
+   | ride.receiptId                 | Identificador do recibo             |
    | ride.company.id                | Identificador da empresa                            |
    | ride.company.name              | Nome da empresa                            |
    | ride.employee.id               | Identificador do colaborador                                         |
@@ -1217,6 +1218,7 @@ https://api.corp.99taxis.com/docs
     {
       "rides": [{
         "apiTaxiJobId": "12219921932",
+        "receiptId": "8382932932",
         "company": {
           "id": 9311,
           "name": "99 Tecnologia"
@@ -1308,6 +1310,7 @@ https://api.corp.99taxis.com/docs
     ```json
     {
       "apiTaxiJobId": "12219921932",
+      "receiptId": "8382932932",
       "company": {
         "id": 9311,
         "name": "99 Tecnologia"
@@ -1578,7 +1581,7 @@ Todos as notificações serão enviadas com as seguintes chaves no cabeçalho HT
 
 * **Endereço**
 
-  `https://sandbox-api.corp.99taxis.com`
+  `https://sandbox-api.corp.99taxis.com/v1`
 
 O ambiente de sandbox tem como objetivo prover uma estrutura para realizar os testes de gerenciamento de recursos como colaboradores (employee), centros de custo (cost center) e projetos (project). Adicionalmente, é possível criar corridas e atualizar seu status sem a necessidade de um aplicativo aberto com um motorista  disponível. Por fim, o mecanismo de webhook, ou seja, notificações sobre mudança de status da corrida ou localização do motorista, também está disponível neste ambiente de testes, permitindo validar todos os passos da integração com a api da 99.
 
@@ -1592,7 +1595,7 @@ As corridas criadas neste ambiente de teste ficarão disponíveis por 72 horas (
 
 Para criar uma corrida basta utilizar o mesmo endpoint de criação de corridas disponível no recurso `ride`.
 
-`curl -X POST https://sandbox-api.corp.99taxis.com/ride -H "Content-Type: application/json" -H "x-api-key: token" -d '{
+`curl -X POST https://sandbox-api.corp.99taxis.com/v1/ride -H "Content-Type: application/json" -H "x-api-key: token" -d '{
   "employeeID": 884373,
   "from": {
     "latitude": -23.564758,
@@ -1623,7 +1626,7 @@ Para criar uma corrida basta utilizar o mesmo endpoint de criação de corridas 
 
 Após criar a corrida, para obter os dados da mesma, basta utilizar o mesmo endpoint de acompanhamento de corridas disponível no recurso `ride`.
 
-`curl -X GET https://sandbox-api.corp.99taxis.com/ride/1234567890 -H "x-api-key: token"`
+`curl -X GET https://sandbox-api.corp.99taxis.com/v1/ride/1234567890 -H "x-api-key: token"`
 
 3) Atualizar o status de uma corrida
 
@@ -1679,7 +1682,7 @@ Estrutura do endpoint:
 
 * **Exemplo de requisição**
 
-`curl --request PATCH https://sandbox-api.corp.99taxis.com/ride/1234567890 -H "Content-Type: application/json" -H "x-api-key: token" -d '{"status": "RIDE_ENDED"}'`
+`curl --request PATCH https://sandbox-api.corp.99taxis.com/v1/ride/1234567890 -H "Content-Type: application/json" -H "x-api-key: token" -d '{"status": "RIDE_ENDED"}'`
 
 4) Receber notificações
 
