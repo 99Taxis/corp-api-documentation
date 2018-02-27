@@ -6,7 +6,19 @@ Endereço de acesso: [https://api.corp.99taxis.com/v1](https://api.corp.99taxis.
 
 ## Swagger
 
+É possível realizar testes online utilizando a interface do Swagger. Para isso, acesse o endereço abaixo:
+
 https://api.corp.99taxis.com/docs
+
+## Autenticação
+
+Todas as requisições precisam informar o token de acesso para o processo de autenticação. Informe a chave com nome `x-api-key` juntamente com o valor do token de acesso no cabeçalho HTTP de cada requisição. 
+
+Considerando o cenário de exemplo onde a chave de acesso possui o valor `key-abc-123`, segue chamada cURL para a listagem de colaboradores:
+
+```
+curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
+```
 
 ## Seções
 
@@ -1693,6 +1705,9 @@ Caso não receba as notificações de webhook, verifique as configurações cada
 ## FAQ
 
 ### Aqui estão algumas dúvidas frequentes de nossos clientes
+
+#### Como realizar o cálculo de estimativa de corridas?
+> A estimativa de corridas está atrelada ao recurso de colaboradores (`employee`). Veja mais detalhes na seção Categorias por colaborador e estimativa de valor por corrida.
 
 #### Estou recebendo o erro invalid.user.or.payment ao solicitar uma corrida. O que fazer?
 > Este erro acontece quando há algum bloqueio ou restrição do colaborador para realizar esta corrida. Certifique-se que a corrida foi estimada através do endpoint `/employee/{id}/categories`, pois é obrigatório a estimativa antes de se fazer a corrida.
