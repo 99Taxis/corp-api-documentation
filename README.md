@@ -1407,8 +1407,39 @@ Os status marcados como **final** significam que não sofrerão alterações fut
 | canceled-by-passenger | Corrida cancelada pelo passageiro | sim |
 | canceled-by-driver | Corrida cancelada pelo motorista | sim |
 | on-the-way | Motorista encontrado e a caminho | não |
+| arrived | Motorista chegou e está aguardando o passageiro | não |
 | in-progress | Corrida iniciada com passageiro a bordo | não |
 | finished | Corrida encerrada | sim |
+
+### Obter configuração do Webhook
+
+* **URL**
+
+  `/webhooks/`
+
+* **Method**
+
+  `GET`
+
+* **Retorno**
+  
+  **Status Code:** 200
+
+  Descrição: Configuração do webhook cadastrada
+
+  ```json
+  {
+    "url": "https://app.99taxis.com/v1/webhook",
+    "authentication": {
+        "username": "username",
+        "password": "password123&&"
+    },
+    "subscriptions": [
+        "ride-status",
+        "ride-driver-location"
+    ]
+  }
+  ```
 
 ### Criação do Webhook
 
@@ -1515,11 +1546,11 @@ Os eventos enviados através do webhook seguem um padrão, para que sua aplicaç
    | Atributo                         | Tipo do dado | Descrição                                                  |
    |----------------------------      | --------- | --------------------------------------------------------    |
    | event.id                         | identificador único universal (UUID) | Identificador único do evento            |
-   | event.date                       | data e hora | Data e hora do evento                           |
+   | event.date                       | numérico | Data e hora do evento em formato unix timestamp  |
    | event.notification               | alfanumérico | Tipo da notificação. Valores possíveis: ride-status, ride-driver-location                             |
    | data.ride.id                     | alfanumérico | Identificador da corrida                                        |
    | data.ride.status                 | alfanumérico | Estado atual da corrida                            |
-   | data.ride.category               | alfanumérico | Categoria da corrida. Valores possíveis: pop99, top99, regular-taxi, turbo-taxi                |
+   | data.ride.category               | alfanumérico | Categoria da corrida. Valores possíveis: 99POP, 99TOP, 99TAXI ou REGULAR-TAXI                |
    | data.ride.corporate.employee.id  | numérico | Identificador do colaborador                                 | 
    | data.ride.corporate.note         | alfanumérico | Justificativa definida pelo colaborador ao solicitar a corrida                        |
    | data.ride.origin.latitude        | coordenada geográfica | Latitude do endereço de origem                              |
@@ -1539,14 +1570,14 @@ Os eventos enviados através do webhook seguem um padrão, para que sua aplicaç
 {
   "event": {
     "id": "5c99bf07-a852-42ed-9bff-30ff13ed888a",
-    "date": "2017-11-12T15:10:35",
+    "date": 1519918755701,
     "type": "ride-status"
   },
   "data": {
     "ride": {
       "id": "123456789",
       "status": "on-the-way",
-      "category": "pop99",
+      "category": "99POP",
       "corporate": {
         "employee": {
           "id": 123456
