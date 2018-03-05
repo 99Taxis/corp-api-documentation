@@ -1533,7 +1533,21 @@ Os status marcados como **final** significam que não sofrerão alterações fut
   | required-subscriptions   | subscriptions           | At least one subscription must be informed                            | Subscrição de eventos não foi definida |
   | invalid-subscriptions    | subscriptions           | Allowed subscriptions: ride-status, ride-driver-location              | Subscrição de evento selecionada não é válida |
 
+### Desativação do uso do Webhook
 
+* **URL**
+
+  `/webhooks/`
+
+* **Method**
+
+  `DELETE`
+
+* **Retorno**
+  
+  **Status Code:** 204
+
+  Descrição: Desativado uso do webhook.
 
 ### Eventos
 
