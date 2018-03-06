@@ -1070,7 +1070,7 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
     | categoryID        | alfanumérico                  |  Categoria a ser usada na corrida. Valores aceitos: regular-taxi, turbo-taxi, top99, pop99  | sim         | -            | pop99 |
     | notes        | alfanumérico                  | Justificativa da corrida | não         | -            | reunião com cliente |
     | projectID    | numérico                  | Identificador do projeto | não         | -            | 394932 |
-    | optionals    | conjunto de alfanuméricos                  | Opcionais da corrida. Valores aceitos: accessible-taxi, female-driver, big-trunk, air-conditioner, offers-wifi, accept-animals, bike-rack | não         | -            | - |
+    | optionals    | conjunto de alfanuméricos                  | Opcionais da corrida. Valores aceitos: accessible-taxi | não         | -            | - |
     
 
  *  **Exemplo de envio**
