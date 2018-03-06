@@ -150,10 +150,8 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
  | id               | numérico         | Identificador do colaborador               | sim             | -                | 10             |
  | fromLat          | alfanumérico     | Latitude do ponto de origem               | sim             | -                | -23.5986665   |
  | fromLng          | alfanumérico     | Longitude do ponto de origem               | sim             | -                | -46.6907445    |
- | toLat            | alfanumérico     | Latitude do ponto de destino               | não             | -                | -23,6822      |
- | toLng            | alfanumérico  | Longitude do ponsto de destino               | não             | -                | -46,6896      |
- | estimatedTime    | numérico         | Tempo estimado do trajeto em minutos      | não             | -                | 15             |
- | estimatedDistance| numérico         | Distância estimada do trajeto em metros   | não             | -                | 10250         |
+ | toLat            | alfanumérico     | Latitude do ponto de destino               | sim             | -                | -23,6822      |
+ | toLng            | alfanumérico  | Longitude do ponsto de destino               | sim             | -                | -46,6896      |
  
  * **Retorno**
    
@@ -1059,13 +1057,13 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
     | employeeID              | numérico              | Identificador do colaborador                      | sim         | -            | 884373  |
     | from.latitude      | alfanumérico              | Latitude do endereço de origem                | sim         | -           |  -23.564758          |
     | from.longitude     | alfanumérico              | Longitude do endereço de origem                      | sim         | -           | -46.651850          |
-    | from.street             | alfanumérico              | Endereço de origem               | sim         | -            | Av Paulista, 1000, São Paulo - SP, Brasil |
-    | from.number               | alfanumérico              | Número do endereço de origem | sim         | -            | 1000 |
+    | from.street             | alfanumérico              | Endereço de origem               | não         | -            | Av Paulista, 1000, São Paulo - SP, Brasil |
+    | from.number               | alfanumérico              | Número do endereço de origem | não         | -            | 1000 |
     | from.reference        | alfanumérico                  | Ponto de referência para endereço de origem | não         | -            | Próximo a estação de metrô |
     | to.latitude      | alfanumérico              | Latitude do endereço de destino                | sim         | -           |  -23.564758          |
     | to.longitude     | alfanumérico              | Longitude do endereço de destino                      | sim         | -           | -46.651850          |
-    | to.street             | alfanumérico              | Endereço de destino               | sim         | -            | Av Paulista, 1000, São Paulo - SP, Brasil |
-    | to.number               | alfanumérico              | Número do endereço de destino | sim         | -            | 1000 |
+    | to.street             | alfanumérico              | Endereço de destino               | não         | -            | Av Paulista, 1000, São Paulo - SP, Brasil |
+    | to.number               | alfanumérico              | Número do endereço de destino | não         | -            | 1000 |
     | to.reference        | alfanumérico                  | Ponto de referência para destino de origem | não         | -            | Próximo a estação de metrô |
     | phoneNumber        | alfanumérico                  | Número de telefone do colaborador a ser exibido para o motorista | sim         | -            | 11999999999 |
     | costCenterID        | numérico                  | Identificador do centro de custo | sim         | -            | 43431 |
