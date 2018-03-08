@@ -74,7 +74,10 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
           "country": "BRA"
         },
         "email": "jose.santos@empresa.com.br",
-        "companyId": 100,
+        "company": {
+          "id": "47a3083b-5d03-4e05-ad9d-9fd6fddd613e",
+          "name": "99"
+        },
         "nationalId": "98765432100",
         "pin": "053",
         "enabled": true,
@@ -119,7 +122,10 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
           "country": "BRA"
         },
         "email": "jose.santos@empresa.com.br",
-        "companyId": 100,
+        "company": {
+          "id": "47a3083b-5d03-4e05-ad9d-9fd6fddd613e",
+          "name": "99"
+        },
         "nationalId": "98765432100",
         "pin": "053",
         "enabled": true,
@@ -324,6 +330,10 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
           "number": "11999999999",
           "country": "BRA"
         },
+        "company": {
+          "id": "47a3083b-5d03-4e05-ad9d-9fd6fddd613e",
+          "name": "99"
+        },
         "email": "jose.santos@empresa.com.br",
         "nationalId": "98765432100",
         "pin": "053",
@@ -405,6 +415,10 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
           "number": "11999999999",
           "country": "BRA"
         },
+        "company": {
+          "id": "47a3083b-5d03-4e05-ad9d-9fd6fddd613e",
+          "name": "99"
+        },
         "email": "jose.santos@empresa.com.br",
         "nationalId": "98765432100",
         "pin": "123",
@@ -471,10 +485,20 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
       {
         "id": 1,
         "name": "financeiro"
+        "enabled": true,
+        "company": {
+          "id": "47a3083b-5d03-4e05-ad9d-9fd6fddd613e",
+          "name": "99"
+        }
       },
       {
         "id": 2,
-        "name": "recursos humanos" 
+        "name": "recursos humanos",
+        "enabled": true,
+        "company": {
+          "id": "47a3083b-5d03-4e05-ad9d-9fd6fddd613e",
+          "name": "99"
+        } 
       }
     ]
     ``` 
@@ -505,7 +529,12 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
     ```json
     {
       "id": 20,
-      "name": "financeiro"
+      "name": "financeiro",
+      "enabled": true,
+      "company": {
+        "key": "47a3083b-5d03-4e05-ad9d-9fd6fddd613e",
+        "name": "99"
+      }
     }
     ```
     
@@ -540,10 +569,20 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
       {
         "id": 1,
         "name": "financeiro"
+        "enabled": true,
+        "company": {
+          "id": "47a3083b-5d03-4e05-ad9d-9fd6fddd613e",
+          "name": "99"
+        }
       },
       {
         "id": 2,
-        "name": "recursos humanos" 
+        "name": "recursos humanos",
+        "enabled": true,
+        "company": {
+          "id": "47a3083b-5d03-4e05-ad9d-9fd6fddd613e",
+          "name": "99"
+        }
       }
     ]
     ```
@@ -646,7 +685,12 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
     ```json
     {
       "id": 44,
-      "name": "recursos humanos"
+      "name": "recursos humanos",
+      "enabled": true,
+      "company": {
+        "id": "47a3083b-5d03-4e05-ad9d-9fd6fddd613e",
+        "name": "99"
+      }
     }
     ```
     
@@ -704,11 +748,19 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
     [
       {
         "id": 1,
-        "name": "evento brasil 2017"
+        "name": "evento brasil 2017",
+        "company": {
+          "id": "47a3083b-5d03-4e05-ad9d-9fd6fddd613e",
+          "name": "99"
+        }
       },
       {
         "id": 2,
-        "name": "project financeiro" 
+        "name": "project financeiro",
+        "company": {
+          "id": "47a3083b-5d03-4e05-ad9d-9fd6fddd613e",
+          "name": "99"
+        }
       }
     ]
     ``` 
@@ -739,7 +791,11 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
     ```json
     {
       "id": 1,
-      "name": "evento brasil 2017"
+      "name": "evento brasil 2017",
+      "company": {
+        "id": "47a3083b-5d03-4e05-ad9d-9fd6fddd613e",
+        "name": "99"
+      }
     }
     ```
     
@@ -777,7 +833,11 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
     ```json
     {
       "id": 5,
-      "name": "expo 2015"
+      "name": "expo 2015",
+      "company": {
+        "id": "47a3083b-5d03-4e05-ad9d-9fd6fddd613e",
+        "name": "99"
+      }
     }
     ```
     
@@ -822,7 +882,11 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
     ```json
     {
       "id": 5,
-      "name": "expo 2017"
+      "name": "expo 2017",
+      "company": {
+        "id": "47a3083b-5d03-4e05-ad9d-9fd6fddd613e",
+        "name": "99"
+      }
     }
     ```
     
