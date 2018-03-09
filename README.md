@@ -22,6 +22,8 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
 
 ## Seções
 
+- [Empresas](#empresas)
+
 - [Colaboradores](#colaboradores)
 
 - [Centros de Custo](#centros-de-custo)
@@ -37,6 +39,37 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
 - [Testes em Sandbox](#testes-em-sandbox)
 
 - [FAQ](#faq)
+
+## Empresas
+
+### Busca de empresas autenticadas
+
+* **URL**
+
+  `/companies`
+
+* **Method**
+
+  `GET`
+  
+* **Retorno**
+  
+  **Status Code:** 200
+  
+    ```json
+    [
+      {
+       "id": "1",
+        "name": "Empresa principal"
+      },
+      {
+        "id": "2",
+        "name": "Empresa secundária"
+      }
+    ]
+    ``` 
+    
+-----
 
 ## Colaboradores
 
@@ -74,6 +107,7 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
           "country": "BRA"
         },
         "email": "jose.santos@empresa.com.br",
+        "companyId": 1073,
         "company": {
           "id": "47a3083b-5d03-4e05-ad9d-9fd6fddd613e",
           "name": "99"
@@ -89,7 +123,9 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
       }
     ]
     ``` 
-    
+  **Observação**
+  O campo _companyId_ está **depreciado**. Deve-se usar os campos _company.id_ e _company.name_.
+
 -----
 
 ### Busca de colaborador por identificador
