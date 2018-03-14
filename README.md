@@ -1295,6 +1295,7 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
    | ride.fare                      | Valor total da corrida          |
    | ride.note                      | Justificativa                                   |
    | ride.odometer                  | Distância total da corrida em metros                        |
+   | ride.duration                  | Duração da corrida em minutos 
    | ride.start.latitude            | Latitude do ponto de origem                                |
    | ride.start.longitude           | Longitude do ponto de origem                                 |
    | ride.start.date                | Data de início da corrida                                      |
