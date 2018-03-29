@@ -985,7 +985,7 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
   | to.street                      | Endereço de destino                                        |
   | to.number                      | Número do endereço de destino                              |
   | to.reference                   | Referência para o endereço de destino                      |
-  | status                         | Estado da corrida. Valores possíveis: COULDNT_FIND_AVAILABLE_DRIVERS, CAR_ON_THE_WAY e CAR_ARRIVED |
+  | status                         | Estado da corrida. Os valores possíveis estão listados na tabela abaixo. |
   | running.rideID                 | Identificador da corrida em andamento                      |
   | running.jobID                  | Identificador da corrida finalizada                        |
   | running.driver.driverId        | Identificador do motorista                                 |
@@ -1010,7 +1010,8 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
   | COULDNT_FIND_AVAILABLE_DRIVERS     | Nenhum motorista disponível                         |
   | DRIVERS_REJECTED                   | Nenhum motorista aceitou a corrida                  |
   | CAR_ON_THE_WAY                     | Motorista está a caminho do endereço solicitado     |
-  | CAR_ARRIVED                        | Motorista chegou e a corrida está em andamento      |
+  | WAITING_FOR_PASSENGER              | Motorista chegou e está aguardando passageiro       | 
+  | CAR_ARRIVED                        | A corrida está em andamento                         |
   | CANCELED_BY_DRIVER                 | Corrida cancelada pelo motorista                    |
   | CANCELED_BY_PASSENGER              | Corrida cancelada pelo passageiro                   |
   | RIDE_ENDED                         | Corrida finalizada                                  |
