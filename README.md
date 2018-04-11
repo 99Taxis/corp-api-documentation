@@ -38,6 +38,8 @@ curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
 
 - [Testes em Sandbox](#testes-em-sandbox)
 
+- [Gerenciar múltiplas empresas](#gerenciar-múltiplas-empresas)
+
 - [FAQ](#faq)
 
 ## Empresas
@@ -1846,6 +1848,73 @@ Estrutura do endpoint:
 Para receber notificações de mudança de status de corrida ou posição do motorista quando uma corrida estiver em andamento, é preciso definir as configurações de webhook através do recurso `webhooks`. Feito isso, sempre que o status da corrida for alterado usando o procedimento anterior (ou seja, uma requisição HTTP PATCH para o recurso `ride`), uma notificação será enviada para o endereço cadastrado com o status atual da corrida.
 
 Caso não receba as notificações de webhook, verifique as configurações cadastradas de webhook como URL e meio de autenticação (nome usuário e senha).
+
+## Gerenciar múltiplas empresas
+
+É possível associar múltiplas empresas a um mesmo token de acesso. Esta funcionalidade permite gerenciar múltiplas empresas que podem ser filiais ou parceiras usando um único meio de autenticação. Para ativar esta funcionalidade, é preciso entrar em contato com nossa equipe através do e-mail *help-corp-api@99taxis.com*
+
+### Listar empresas associadas ao token de acesso
+
+* **URL**
+
+  `/companies/`
+
+* **Method**
+
+  `GET`
+
+* **Retorno**
+  
+  **Status Code:** 200
+
+  Descrição: Lista de empresas associadas ao token de acesso
+
+  ```json
+  [
+    {
+        "id": "6d74008f-d2d5-4f79-95f5-4e049bdbac99",
+        "name": "99 matriz"
+    },
+    {
+        "id": "5169224d-30c5-4bdf-ba2c-019aa51c3829",
+        "name": "99 filial"
+    }
+  ]
+  ```
+
+* **Exemplo de chamada**
+
+Considera-se 123 como a chave de autenticação da empresa (token único de acesso)
+
+```curl
+curl -X GET "/v1/companies" -H "x-api-key: 123"
+```
+
+### Identificar empresa
+
+O endpoint de listagem de empresas deve ser usado para obter o identificador de cada empresa. Este identificador será usado para escolher qual empresa de destino por operação, tendo como exemplo de uso o cadastro de colaborador/centro de custo/projeto, solicitação de corridas ou extração de relatórios de recibos.
+
+É preciso fornecer o identificador da empresa como parâmetro de uma chave no cabeçalho HTTP com o nome *x-company-id*. Exemplo:
+
+```
+"x-company-id: 6d74008f-d2d5-4f79-95f5-4e049bdbac99"
+```
+
+Exemplos de uso considerando a chave de acesso 123 e o ambiente de sandbox:
+
+- Listar centros de custo da empresa 99 Matriz
+
+```curl
+curl -X GET https://sandbox-api.corp.99taxis.com/v1/costcenter/ 'x-api-key: 123' -H 'x-company-id: 6d74008f-d2d5-4f79-95f5-4e049bdbac99'
+```
+
+- Listar centros de custo da empresa 99 Filial
+
+```curl
+curl -X GET https://sandbox-api.corp.99taxis.com/v1/costcenter/ 'x-api-key: 123' -H 'x-company-id: 5169224d-30c5-4bdf-ba2c-019aa51c3829'
+```
+
+**Se o identificador (chave x-company-id) não for fornecido, será considerado a empresa primária associada ao token de acesso (na listagem de empresas associadas, será considerado o primeiro registro).**
 
 ## FAQ
 
