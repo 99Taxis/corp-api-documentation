@@ -2,13 +2,13 @@
 
 Documentação para uso dos endpoints da API para clientes corporativos da 99.
 
-Endereço de acesso: [https://api.corp.99taxis.com/v1](https://api.corp.99taxis.com/v1)
+Endereço de acesso: [https://api-corp.99app.com/v1](https://api-corp.99app.com/v1)
 
 ## Swagger
 
 É possível realizar testes online utilizando a interface do Swagger. Para isso, acesse o endereço abaixo:
 
-https://api.corp.99taxis.com/docs
+https://api-corp.99app.com/docs
 
 ## Autenticação
 
@@ -17,7 +17,7 @@ Todas as requisições precisam informar o token de acesso para o processo de au
 Considerando o cenário de exemplo onde a chave de acesso possui o valor `key-abc-123`, segue chamada cURL para a listagem de colaboradores:
 
 ```
-curl -X GET https://api.corp.99taxis.com/v1/employee -H 'x-api-key: key-abc-123'
+curl -X GET https://api-corp.99app.com/v1/employee -H 'x-api-key: key-abc-123'
 ```
 
 ## Seções
@@ -1740,7 +1740,7 @@ Todos as notificações serão enviadas com as seguintes chaves no cabeçalho HT
 
 * **Endereço**
 
-  `https://sandbox-api.corp.99taxis.com/v1`
+  `https://sandbox-api-corp.99app.com/v1`
 
 O ambiente de sandbox tem como objetivo prover uma estrutura para realizar os testes de gerenciamento de recursos como colaboradores (employee), centros de custo (cost center) e projetos (project). Adicionalmente, é possível criar corridas e atualizar seu status sem a necessidade de um aplicativo aberto com um motorista  disponível. Por fim, o mecanismo de webhook, ou seja, notificações sobre mudança de status da corrida ou localização do motorista, também está disponível neste ambiente de testes, permitindo validar todos os passos da integração com a api da 99.
 
@@ -1754,7 +1754,7 @@ As corridas criadas neste ambiente de teste ficarão disponíveis por 72 horas (
 
 Para criar uma corrida basta utilizar o mesmo endpoint de criação de corridas disponível no recurso `ride`.
 
-`curl -X POST https://sandbox-api.corp.99taxis.com/v1/ride -H "Content-Type: application/json" -H "x-api-key: token" -d '{
+`curl -X POST https://sandbox-api-corp.99app.com/v1/ride -H "Content-Type: application/json" -H "x-api-key: token" -d '{
   "employeeID": 884373,
   "from": {
     "latitude": -23.564758,
@@ -1785,7 +1785,7 @@ Para criar uma corrida basta utilizar o mesmo endpoint de criação de corridas 
 
 Após criar a corrida, para obter os dados da mesma, basta utilizar o mesmo endpoint de acompanhamento de corridas disponível no recurso `ride`.
 
-`curl -X GET https://sandbox-api.corp.99taxis.com/v1/ride/1234567890 -H "x-api-key: token"`
+`curl -X GET https://sandbox-api-corp.99app.com/v1/ride/1234567890 -H "x-api-key: token"`
 
 3) Atualizar o status de uma corrida
 
@@ -1841,7 +1841,7 @@ Estrutura do endpoint:
 
 * **Exemplo de requisição**
 
-`curl --request PATCH https://sandbox-api.corp.99taxis.com/v1/ride/1234567890 -H "Content-Type: application/json" -H "x-api-key: token" -d '{"status": "RIDE_ENDED"}'`
+`curl --request PATCH https://sandbox-api-corp.99app.com/v1/ride/1234567890 -H "Content-Type: application/json" -H "x-api-key: token" -d '{"status": "RIDE_ENDED"}'`
 
 4) Receber notificações
 
@@ -1905,13 +1905,13 @@ Exemplos de uso considerando a chave de acesso 123 e o ambiente de sandbox:
 - Listar centros de custo da empresa 99 Matriz
 
 ```curl
-curl -X GET https://sandbox-api.corp.99taxis.com/v1/costcenter/ 'x-api-key: 123' -H 'x-company-id: 6d74008f-d2d5-4f79-95f5-4e049bdbac99'
+curl -X GET https://sandbox-api-corp.99app.com/v1/costcenter/ 'x-api-key: 123' -H 'x-company-id: 6d74008f-d2d5-4f79-95f5-4e049bdbac99'
 ```
 
 - Listar centros de custo da empresa 99 Filial
 
 ```curl
-curl -X GET https://sandbox-api.corp.99taxis.com/v1/costcenter/ 'x-api-key: 123' -H 'x-company-id: 5169224d-30c5-4bdf-ba2c-019aa51c3829'
+curl -X GET https://sandbox-api-corp.99app.com/v1/costcenter/ 'x-api-key: 123' -H 'x-company-id: 5169224d-30c5-4bdf-ba2c-019aa51c3829'
 ```
 
 **Se o identificador (chave x-company-id) não for fornecido, será considerado a empresa primária associada ao token de acesso (na listagem de empresas associadas, será considerado o primeiro registro).**
