@@ -326,7 +326,7 @@ curl -X GET https://api-corp.99app.com/v1/employee -H 'x-api-key: key-abc-123'
     | employee.nationalId        | alfanumérico              | Documento do colaborador (CPF) (Somente números) | não&ast;         | -            | 98765432100 |
     | employee.pin               | alfanumérico              | Código de confirmação de corrida (deve conter 3 dígitos)| não&ast;         | -            | 934 |
     | employee.externalId        | numérico                  | Identificador externo do colaborador. É possível relacionar o identificador de um sistema externo. | não         | -            | 456 |
-    | employee.supervisorId        | numérico                  | Id do supervisor do colaborador. | não         | -            | 256 |
+    | employee.supervisorId      | numérico                  | Id do supervisor (employeeId)do colaborador. | não         | -            | 256 |
     | employee.categories        | conjunto de alfanuméricos | Categorias permitidas para uso do colaborador. Valores aceitos: regular-taxi, turbo-taxi, top99, pop99 | sim         | -            | regular-taxi, turbo-taxi |
     | sendWelcomeEmail           | verdadeiro/falso          | Se verdadeiro, colaborador cadastrado receberá um e-mail de boas vindas| não         | false            | false |
 
@@ -420,7 +420,7 @@ curl -X GET https://api-corp.99app.com/v1/employee -H 'x-api-key: key-abc-123'
     | employee.nationalId        | alfanumérico              | Documento do colaborador (CPF) (Somente números) | não         | -            | 98765432100 |
     | employee.pin               | alfanumérico              | Código de confirmação de corrida (deve conter 3 dígitos)| não         | -            | 934 |
     | employee.externalId        | numérico                  | Identificador externo do colaborador. É possível relacionar o identificador de um sistema externo. | não         | -            | 456 |
-    | employee.supervisorId        | numérico                  | Id do supervisor do colaborador. | não         | -            | 256 |
+    | employee.supervisorId      | numérico                  | Id do supervisor (employeeId) do colaborador. | não         | -            | 256 |
     | employee.categories        | conjunto de alfanuméricos | Categorias permitidas para uso do colaborador. Valores aceitos: regular-taxi, turbo-taxi, top99, pop99 | sim         | -            | regular-taxi, turbo-taxi |
     | sendWelcomeEmail           | verdadeiro/falso          | Se verdadeiro, colaborador cadastrado receberá um e-mail de boas vindas| não         | false            | false |
 
