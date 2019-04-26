@@ -552,7 +552,7 @@ curl -X GET https://api-corp.99app.com/v1/employee -H 'x-api-key: key-abc-123'
     [
       {
         "id": 1,
-        "name": "financeiro"
+        "name": "financeiro",
         "enabled": true,
         "company": {
           "id": "47a3083b-5d03-4e05-ad9d-9fd6fddd613e",
