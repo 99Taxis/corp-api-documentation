@@ -552,7 +552,7 @@ curl -X GET https://api-corp.99app.com/v1/employee -H 'x-api-key: key-abc-123'
     [
       {
         "id": 1,
-        "name": "financeiro"
+        "name": "financeiro",
         "enabled": true,
         "company": {
           "id": "47a3083b-5d03-4e05-ad9d-9fd6fddd613e",
@@ -1190,13 +1190,11 @@ curl -X GET https://api-corp.99app.com/v1/employee -H 'x-api-key: key-abc-123'
     | employeeID              | numérico              | Identificador do colaborador                      | sim         | -            | 884373  |
     | from.latitude      | alfanumérico              | Latitude do endereço de origem                | sim         | -           |  -23.564758          |
     | from.longitude     | alfanumérico              | Longitude do endereço de origem                      | sim         | -           | -46.651850          |
-    | from.street             | alfanumérico              | Endereço de origem               | não         | -            | Av Paulista, 1000, São Paulo - SP, Brasil |
-    | from.number               | alfanumérico              | Número do endereço de origem | não         | -            | 1000 |
+    | from.street             | alfanumérico              | Endereço de origem               | sim         | -            | Av Paulista, 1000, São Paulo - SP, Brasil |
     | from.reference        | alfanumérico                  | Ponto de referência para endereço de origem | não         | -            | Próximo a estação de metrô |
     | to.latitude      | alfanumérico              | Latitude do endereço de destino                | sim         | -           |  -23.564758          |
     | to.longitude     | alfanumérico              | Longitude do endereço de destino                      | sim         | -           | -46.651850          |
-    | to.street             | alfanumérico              | Endereço de destino               | não         | -            | Av Paulista, 1000, São Paulo - SP, Brasil |
-    | to.number               | alfanumérico              | Número do endereço de destino | não         | -            | 1000 |
+    | to.street             | alfanumérico              | Endereço de destino               | sim         | -            | Av Paulista, 1000, São Paulo - SP, Brasil |
     | to.reference        | alfanumérico                  | Ponto de referência para destino de origem | não         | -            | Próximo a estação de metrô |
     | phoneNumber        | alfanumérico                  | Número de telefone do colaborador a ser exibido para o motorista | sim         | -            | 11999999999 |
     | costCenterID        | numérico                  | Identificador do centro de custo | sim         | -            | 43431 |
