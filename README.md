@@ -390,6 +390,37 @@ curl -X GET https://api-corp.99app.com/v1/employee -H 'x-api-key: key-abc-123'
     
 -----
 
+## Busca de centro de custo do colaborador
+
+- **URL**
+
+  `/employee/{employeeId}/costcenter`
+
+- **Método**
+
+  `GET`
+
+- **Parâmetros via query**
+
+  | Atributo | Tipo do dado | Descrição                    | Obrigatório | Valor padrão | Exemplo |
+    | -------- | ------------ | ---------------------------- | ----------- | ------------ | ------- |
+  | employeeId | numérico     | Identificador do colaborador | sim         | -            | 20      |
+
+* **Retorno**
+
+  **Status Code:** 200
+
+  ```json
+  [
+    {
+      "id": 77045,
+      "name": "IntegrationAPI"
+    }
+  ]
+  ```
+
+---
+
 ## Atualizar os dados de colaborador
 
 * **URL**
