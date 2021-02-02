@@ -421,6 +421,46 @@ curl -X GET https://api-corp.99app.com/v1/employee -H 'x-api-key: key-abc-123'
 
 ---
 
+## Atualizar centro de custos do colaborador
+
+- **URL**
+
+  `/employee/{employeeId}/costcenter`
+
+- **Método**
+
+  `PATCH`
+
+- **Parâmetros via url**
+
+  | Atributo   | Tipo do dado | Descrição                    | Obrigatório | Valor padrão | Exemplo |
+    | ---------- | ------------ | ---------------------------- | ----------- | ------------ | ------- |
+  | employeeId | numérico     | Identificador do colaborador | sim         | -            | 125     |
+
+* **Parâmetros via body**
+
+  | Atributo      | Tipo do dado          | Descrição                           | Obrigatório | Valor padrão | Exemplo  |
+    | ------------- | --------------------- | ----------------------------------- | ----------- | ------------ | -------- |
+  | costCenterIDs | conjunto de numéricos | Identificadores de centros de custo | sim         | -            | 100, 200 |
+
+* **Exemplo de envio**
+
+  ```json
+  {
+    "costCenterIDs": [100, 200]
+  }
+  ```
+
+- **Retorno**
+
+  **Status Code:** 200
+
+  ```json
+  [100, 200]
+  ```
+
+---
+
 ## Atualizar os dados de colaborador
 
 * **URL**
