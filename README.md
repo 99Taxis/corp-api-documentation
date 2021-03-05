@@ -636,7 +636,7 @@ curl -X GET https://api-corp.99app.com/v1/employee -H 'x-api-key: key-abc-123'
     [
       {
         "id": 1,
-        "name": "financeiro"
+        "name": "financeiro",
         "enabled": true,
         "company": {
           "id": "47a3083b-5d03-4e05-ad9d-9fd6fddd613e",
@@ -1032,6 +1032,8 @@ curl -X GET https://api-corp.99app.com/v1/employee -H 'x-api-key: key-abc-123'
   | running.route.distance      | Distância já percorrida na corrida (em metros)               |
   | running.smsStartedSent      | Notifica se o SMS com os dados do motorista foi enviado ao passageiro |
   | running.smsDriverCanceledSent   | Notifica se o SMS informando o cancelamento da corrida pelo motorista foi enviado |
+  | receiver.name                   |  Nome do destinatário da corrida do tipo Entrega99 | 
+  | receiver.phone                  | Telefone do destinatário da corrida do tipo Entrega99 | 
 
   
   **Retornos possíveis para o estado da corrida**
@@ -1062,7 +1064,7 @@ curl -X GET https://api-corp.99app.com/v1/employee -H 'x-api-key: key-abc-123'
       },
       "phoneNumber": "11999999999",
       "costCenterID": 43431,
-      "categoryID": "turbo-taxi",
+      "categoryID": "delivery99",
       "to": {
         "latitude": -23.590760,
         "longitude": -46.682129,
@@ -1093,6 +1095,10 @@ curl -X GET https://api-corp.99app.com/v1/employee -H 'x-api-key: key-abc-123'
         },
         "smsStartedSent": true,
         "smsDriverCanceledSent": false
+      },
+      "receiver": {
+        "name": "João da Silva",
+        "phone": "+5511999998888"
       }
     }]
     ```
@@ -1134,7 +1140,7 @@ curl -X GET https://api-corp.99app.com/v1/employee -H 'x-api-key: key-abc-123'
         },
         "phoneNumber": "11999999999",
         "costCenterID": 43431,
-        "categoryID": "turbo-taxi",
+        "categoryID": "delivery99",
         "to": {
             "latitude": -23.590760,
             "longitude": -46.682129,
@@ -1165,6 +1171,10 @@ curl -X GET https://api-corp.99app.com/v1/employee -H 'x-api-key: key-abc-123'
             },
             "smsStartedSent": true,
             "smsDriverCanceledSent": false
+        },
+        "receiver": {
+            "name": "João da Silva",
+            "phone": "+5511999998888"
         }
     }
     ```
@@ -1198,10 +1208,12 @@ curl -X GET https://api-corp.99app.com/v1/employee -H 'x-api-key: key-abc-123'
     | to.reference        | alfanumérico                  | Ponto de referência para destino de origem | não         | -            | Próximo a estação de metrô |
     | phoneNumber        | alfanumérico                  | Número de telefone do colaborador a ser exibido para o motorista | sim         | -            | 11999999999 |
     | costCenterID        | numérico                  | Identificador do centro de custo | sim         | -            | 43431 |
-    | categoryID        | alfanumérico                  |  Categoria a ser usada na corrida. Valores aceitos: regular-taxi, turbo-taxi, top99, pop99  | sim         | -            | pop99 |
+    | categoryID        | alfanumérico                  |  Categoria a ser usada na corrida. Valores aceitos: regular-taxi, turbo-taxi, top99, pop99, comfort99, poupa99, delivery99  | sim         | -            | pop99 |
     | notes        | alfanumérico                  | Justificativa da corrida | não         | -            | reunião com cliente |
     | projectID    | numérico                  | Identificador do projeto | não         | -            | 394932 |
     | optionals    | conjunto de alfanuméricos                  | Opcionais da corrida. Valores aceitos: accessible-taxi | não         | -            | - |
+    | receiver.name    | conjunto de alfanuméricos                  | Nome do destinatário da corrida do tipo Entrega99 | apenas quando a corrida for da categoria delivery99         | -            | "João da Silva" |
+    | receiver.phone    | conjunto de alfanuméricos                  | Número de telefone do destinatário da corrida do tipo Entrega99 | apenas quando a corrida for da categoria delivery99         | -            | "11999999999" |
     
 
  *  **Exemplo de envio**
